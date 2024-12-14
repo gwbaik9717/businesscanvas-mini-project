@@ -16,7 +16,6 @@ export const SelectTrigger = <T extends React.ElementType = "button">({
   const Element = as || "button";
 
   const selectedLabel = React.useMemo(() => {
-    console.log(selectedKeys);
     if (!selectedKeys) {
       if (placeholder) {
         return placeholder;

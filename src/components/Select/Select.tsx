@@ -1,6 +1,6 @@
 import React, { createContext, useState, ReactNode, useCallback } from "react";
 
-interface RegisterOptionType {
+export interface RegisterOptionType {
   key: React.Key;
   label: string;
 }
