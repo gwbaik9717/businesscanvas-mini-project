@@ -1,0 +1,19 @@
+:root {
+  /* Primary Colors */
+  --business-color-primary: #4a7cfe;
+  --business-color-primary-hover: #739fff;
+  --business-color-primary-active: #345dd9;
+
+  /* Secondary Colors */
+  --business-color-border: #e3e3e3;
+  --business-color-bg-container: #ffffff;
+  --business-color-bg-container-hover: #0000000f;
+  --business-color-bg-container-disabled: #0000000a;
+
+  /* Radius */
+  --business-border-radius-sm: 8px;
+  --business-border-radius-md: 10px;
+
+  /* Padding */
+  --business-padding-sm: 12px;
+}

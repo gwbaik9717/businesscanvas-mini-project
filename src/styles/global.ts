@@ -1,12 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
+import "./theme/theme.css";
+
 export const GlobalStyles = createGlobalStyle`
-    :root {
-        --primary-color: #7a22d6;
-        --gray-7: #515C68;
-        --gray-6: rgba(81, 92, 104, 0.5);
-        --gray-4: rgba(200, 211, 222, 1);
-    }
     ${reset}
     * {
         box-sizing: border-box;
