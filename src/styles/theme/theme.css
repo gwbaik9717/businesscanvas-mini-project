@@ -16,4 +16,20 @@
 
   /* Padding */
   --business-padding-sm: 12px;
+
+  /* Font Sizes */
+  --business-font-size-sm: 10px;
+  --business-font-size-md: 12px;
+  --business-font-size-lg: 14px;
+  --business-font-size-xl: 16px;
+
+  /* Line Heights */
+  --business-line-height-tight: 18px;
+  --business-line-height-normal: 22px;
+  --business-line-height-relaxed: 24px;
+
+  /* Font Weights */
+  --business-font-weight-regular: 400;
+  --business-font-weight-medium: 500;
+  --business-font-weight-bold: 600;
 }

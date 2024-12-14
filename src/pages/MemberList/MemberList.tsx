@@ -7,6 +7,7 @@ import { ButtonWithIcons } from "../../components/Button/ButtonWithIcons";
 import { PlusIcon } from "../../components/Icons/PlusIcon";
 import styled from "styled-components";
 import { PageLayout } from "../../layouts/PageLayout";
+import { Heading } from "../../components/Typography/Heading";
 
 interface RowData {
   id: number;
@@ -32,7 +33,13 @@ export const MemberList: React.FC = () => {
   return (
     <PageLayout>
       <StyledPageHeader>
-        <h1>회원 목록</h1>
+        <Heading
+          as="h1"
+          lineHeight="lineHeightRelaxed"
+          fontWeight="fontWeightBold"
+        >
+          멤버 목록
+        </Heading>
         <ButtonWithIcons startContent={<PlusIcon width={16} height={16} />}>
           추가
         </ButtonWithIcons>
