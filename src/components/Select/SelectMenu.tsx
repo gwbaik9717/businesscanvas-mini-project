@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelectContext } from "./Select";
 
 interface SelectMenuProps {
@@ -6,12 +6,30 @@ interface SelectMenuProps {
 }
 
 export const SelectMenu: React.FC<SelectMenuProps> = ({ children }) => {
-  const { isOpen } = useSelectContext();
+  const { isOpen, close } = useSelectContext();
+  const menuRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        close();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isOpen, close]);
 
   if (!isOpen) return null;
 
   return (
     <ul
+      ref={menuRef}
       role="listbox"
       style={{
         position: "absolute",
