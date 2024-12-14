@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { CheckIcon } from "../Icons/CheckIcon";
 
 interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "checked"> {
@@ -28,9 +29,12 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         {...props}
       />
       <StyledCheckbox checked={checked}>
-        <svg viewBox="0 0 24 24">
-          <path d="M20.7 5.3c-.4-.4-1-.4-1.4 0L9 15.6l-4.3-4.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l5 5c.4.4 1 .4 1.4 0l11-11c.4-.4.4-1 0-1.4z" />
-        </svg>
+        <CheckIcon
+          width={12}
+          height={12}
+          color="white"
+          visibility={checked ? "visible" : "hidden"}
+        />
       </StyledCheckbox>
     </StyledCheckboxContainer>
   );
@@ -59,11 +63,4 @@ const StyledCheckbox = styled.div<{ checked: boolean }>`
   border-radius: 4px;
   background-color: ${(props) => (props.checked ? "#007bff" : "transparent")};
   transition: all 0.2s ease;
-
-  svg {
-    visibility: ${(props) => (props.checked ? "visible" : "hidden")};
-    fill: white;
-    width: 12px;
-    height: 12px;
-  }
 `;
