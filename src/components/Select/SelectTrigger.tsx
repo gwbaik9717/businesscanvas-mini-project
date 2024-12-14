@@ -1,19 +1,22 @@
 import React, { KeyboardEvent } from "react";
 import { useSelectContext } from "./Select";
-import { ButtonWithIcons } from "../Button/ButtonWithIcons";
 
-interface SelectTriggerProps {
-  as?: React.ElementType;
+interface SelectTriggerProps<T extends React.ElementType> {
+  as?: T;
   placeholder?: string;
 }
 
-export const SelectTrigger: React.FC<SelectTriggerProps> = ({
-  as: Component = ButtonWithIcons,
+export const SelectTrigger = <T extends React.ElementType = "button">({
+  as,
   placeholder,
-}) => {
+  ...props
+}: SelectTriggerProps<T> & React.ComponentPropsWithoutRef<T>) => {
   const { toggle, selectedKeys, options } = useSelectContext();
 
+  const Element = as || "button";
+
   const selectedLabel = React.useMemo(() => {
+    console.log(selectedKeys);
     if (!selectedKeys) {
       if (placeholder) {
         return placeholder;
@@ -40,9 +43,8 @@ export const SelectTrigger: React.FC<SelectTriggerProps> = ({
   };
 
   return (
-    <Component onClick={toggle} onKeyDown={handleKeyDown}>
+    <Element onClick={toggle} onKeyDown={handleKeyDown} {...props}>
       {selectedLabel}
-      <span style={{ marginLeft: 8 }}>▼</span>
-    </Component>
+    </Element>
   );
 };
