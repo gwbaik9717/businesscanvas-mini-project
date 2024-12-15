@@ -1,7 +1,7 @@
 import { BaseField, SelectField } from "../types/Field";
-import { MemberRecord } from "../types/MemberRecord";
+import { UniqueRecord } from "../types/Record";
 
-export const initialMembers: MemberRecord[] = [
+export const initialMembers: UniqueRecord[] = [
   {
     id: "1",
     name: "John Doe",

@@ -1,38 +1,43 @@
 import { useTableContext } from "./Table";
+import styled from "styled-components";
+import { Text } from "../Typography/Text";
+import { UniqueRecord } from "../../types/Record";
 
-export const TableHeader = <T,>() => {
+interface TableHeaderProps<T extends UniqueRecord> {
+  render?: (props: {
+    column: { label: string; accessor: keyof T; filterable?: boolean };
+    setFilter: (accessor: keyof T, value: string) => void;
+  }) => React.ReactNode;
+}
+
+export const TableHeader = <T extends UniqueRecord>({
+  render,
+}: TableHeaderProps<T>) => {
   const { columns, setFilter } = useTableContext<T>();
 
   return (
     <thead>
       <tr>
         {columns.map((column) => (
-          <th
-            key={column.label}
-            style={{
-              textAlign: "left",
-              padding: "8px",
-              borderBottom: "1px solid #ccc",
-            }}
-          >
-            {column.label}
-            {column.filterable && (
-              <input
-                type="text"
-                placeholder={`Filter ${column.label}`}
-                onChange={(e) => setFilter(column.accessor, e.target.value)}
-                style={{
-                  marginTop: "4px",
-                  padding: "4px",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                  width: "100%",
-                }}
-              />
+          <StyledTh key={column.label}>
+            {render ? (
+              render({
+                column,
+                setFilter,
+              })
+            ) : (
+              <Text>{column.label}</Text>
             )}
-          </th>
+          </StyledTh>
         ))}
       </tr>
     </thead>
   );
 };
+
+const StyledTh = styled.th`
+  position: relative;
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
+`;

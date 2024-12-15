@@ -10,36 +10,16 @@ import { PageLayout } from "../../layouts/PageLayout";
 import { Heading } from "../../components/Typography/Heading";
 import { Text } from "../../components/Typography/Text";
 import { color } from "../../styles/theme/theme";
-import { MemberRecord } from "../../types/MemberRecord";
+import { UniqueRecord } from "../../types/Record";
 import { initialMembers, memberFields } from "../../constants/member";
 import { Field } from "../../types/Field";
 import { TableBody } from "../../components/Table/TableBody";
 
-// interface RowData {
-//   id: number;
-//   name: string;
-//   age: number;
-//   job: string;
-// }
-
-// const data: RowData[] = [
-//   { id: 1, name: "John Doe", age: 30, job: "Developer" },
-//   { id: 2, name: "Jane Smith", age: 25, job: "Designer" },
-//   { id: 3, name: "Sam Wilson", age: 35, job: "Manager" },
-// ];
-
-// const columns: TableColumn<RowData>[] = [
-//   { label: "ID", accessor: "id", filterable: false },
-//   { label: "Name", accessor: "name", filterable: true },
-//   { label: "Age", accessor: "age", filterable: true },
-//   { label: "Job", accessor: "job", filterable: true },
-// ];
-
 export const MemberList: React.FC = () => {
-  const [records, setRecords] = useState<MemberRecord[]>(initialMembers);
+  const [records, setRecords] = useState<UniqueRecord[]>(initialMembers);
   const { current: fields } = useRef<Field[]>(memberFields);
 
-  const columns: TableColumn<MemberRecord>[] = fields.map((field) => ({
+  const columns: TableColumn<UniqueRecord>[] = fields.map((field) => ({
     label: field.label,
     accessor: field.key,
     filterable: true,
@@ -64,13 +44,21 @@ export const MemberList: React.FC = () => {
         </ButtonWithIcons>
       </StyledPageHeader>
 
-      <Table<MemberRecord> data={records} columns={columns}>
-        <TableHeader />
-        <TableBody>
-          {records.map((record) => (
-            <TableRow<MemberRecord> key={record.id} row={record} />
-          ))}
-        </TableBody>
+      <Table<UniqueRecord> data={records} columns={columns}>
+        <TableHeader
+          render={({ column, setFilter }) => (
+            <input
+              type="text"
+              placeholder={`Filter ${column.label}`}
+              onChange={(e) => {
+                setFilter(column.accessor, e.target.value);
+              }}
+            />
+          )}
+        />
+        <TableBody<UniqueRecord>
+          render={({ row }) => <TableRow key={row.id} row={row} />}
+        />
       </Table>
     </PageLayout>
   );

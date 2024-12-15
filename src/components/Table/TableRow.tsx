@@ -1,10 +1,11 @@
+import { UniqueRecord } from "../../types/Record";
 import { useTableContext } from "./Table";
 
-interface TableRowProps<T> {
+interface TableRowProps<T extends UniqueRecord> {
   row: T;
 }
 
-export const TableRow = <T,>({ row }: TableRowProps<T>) => {
+export const TableRow = <T extends UniqueRecord>({ row }: TableRowProps<T>) => {
   const { columns } = useTableContext<T>();
 
   return (
@@ -15,7 +16,7 @@ export const TableRow = <T,>({ row }: TableRowProps<T>) => {
           style={{ padding: "8px", borderBottom: "1px solid #eee" }}
         >
           {column.accessor && row[column.accessor] !== undefined
-            ? String(row[column.accessor]) // Ensure the value is rendered as a string
+            ? String(row[column.accessor])
             : null}
         </td>
       ))}

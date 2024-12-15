@@ -1,7 +1,8 @@
 import React, { createContext, useContext } from "react";
 import { useTable, UseTableProps } from "./hooks/useTable";
+import { UniqueRecord } from "../../types/Record";
 
-export interface TableContextType<T> {
+export interface TableContextType<T extends UniqueRecord> {
   columns: UseTableProps<T>["columns"];
   data: T[];
   filters: Partial<Record<keyof T, string>>;
@@ -10,7 +11,9 @@ export interface TableContextType<T> {
 
 const TableContext = createContext<TableContextType<any> | null>(null);
 
-export const useTableContext = <T,>(): TableContextType<T> => {
+export const useTableContext = <
+  T extends UniqueRecord
+>(): TableContextType<T> => {
   const context = useContext(TableContext);
   if (!context) {
     throw new Error("Table compound components must be used within a Table.");
@@ -18,11 +21,15 @@ export const useTableContext = <T,>(): TableContextType<T> => {
   return context;
 };
 
-interface TableProps<T> extends UseTableProps<T> {
+interface TableProps<T extends UniqueRecord> extends UseTableProps<T> {
   children: React.ReactNode;
 }
 
-export const Table = <T,>({ data, columns, children }: TableProps<T>) => {
+export const Table = <T extends UniqueRecord>({
+  data,
+  columns,
+  children,
+}: TableProps<T>) => {
   const table = useTable({ data, columns });
 
   return (

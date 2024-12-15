@@ -1,17 +1,21 @@
 import { useState, useMemo } from "react";
+import { UniqueRecord } from "../../../types/Record";
 
-export interface TableColumn<T> {
+export interface TableColumn<T extends UniqueRecord> {
   label: string;
   accessor: keyof T;
   filterable?: boolean;
 }
 
-export interface UseTableProps<T> {
+export interface UseTableProps<T extends UniqueRecord> {
   data: T[];
   columns: TableColumn<T>[];
 }
 
-export function useTable<T>({ data, columns }: UseTableProps<T>) {
+export function useTable<T extends UniqueRecord>({
+  data,
+  columns,
+}: UseTableProps<T>) {
   const [filters, setFilters] = useState<Partial<Record<keyof T, string>>>({});
 
   const filteredData = useMemo(() => {

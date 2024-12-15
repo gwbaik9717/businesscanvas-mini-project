@@ -1,3 +1,3 @@
-export type MemberRecord = {
+export type UniqueRecord = {
   id: string;
 } & Record<string, unknown>;
