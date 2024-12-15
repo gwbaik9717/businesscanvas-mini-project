@@ -12,12 +12,15 @@ import {
 interface SelectMenuItemProps {
   value: any;
   children?: React.ReactNode;
+  selected?: boolean;
   style?: React.CSSProperties;
 }
 
 export const SelectMenuItem: React.FC<SelectMenuItemProps> = ({
   value,
   children,
+  selected,
+  style,
 }) => {
   const { selectMenuItem, registerOption } = useSelectContext();
 
@@ -30,21 +33,32 @@ export const SelectMenuItem: React.FC<SelectMenuItemProps> = ({
   };
 
   return (
-    <StyledMenuItem role="option" onClick={handleClick}>
+    <StyledMenuItem
+      role="option"
+      selected={selected}
+      onClick={handleClick}
+      style={style}
+    >
       {children}
     </StyledMenuItem>
   );
 };
 
-const StyledMenuItem = styled.li`
+const StyledMenuItem = styled.li<{
+  selected?: boolean;
+  style?: React.CSSProperties;
+}>`
   display: flex;
   align-items: center;
   padding: 5px ${padding.paddingLg};
   cursor: pointer;
   transition: ${transition.transition};
   width: 190px;
-  height: ${height.heightMd};
+  height: ${height.heightSm};
   border-radius: ${radius.borderRadiusSm};
+  background-color: ${(props) =>
+    props.selected ? color.bgActive : color.transparent};
+  color: ${(props) => (props.selected ? color.primary : color.text)};
 
   &:hover {
     background-color: ${color.bgContainerHover};

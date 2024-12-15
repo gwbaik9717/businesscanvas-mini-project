@@ -14,6 +14,7 @@ import { CalendarOutlinedIcon } from "../../../components/Icons/CalendarOutlined
 import { color } from "../../../styles/theme/theme";
 import { Text } from "../../../components/Typography/Text";
 import { DatePicker } from "../../../components/DatePicker/DatePicker";
+import { DefaultSelect } from "../../../components/Select/DefaultSelect";
 
 interface FieldRendererProps {
   field: Field;
@@ -61,24 +62,12 @@ export const FieldRenderer: React.FC<FieldRendererProps> = ({
 
   if (field.type === "select") {
     return (
-      <Select
-        selectionMode="single"
-        onSelectionChange={(selectedValue) => handleChange(selectedValue)}
-      >
-        <SelectTrigger
-          as={ButtonWithIcons}
-          endContent={<ChevronDownIcon width={10} height={10} />}
-        >
-          {value || "Select an option"}
-        </SelectTrigger>
-        <SelectMenu>
-          {(field as SelectField).options.map((option) => (
-            <SelectMenuItem key={option} value={option}>
-              {option}
-            </SelectMenuItem>
-          ))}
-        </SelectMenu>
-      </Select>
+      <DefaultSelect
+        placeholder="Select job"
+        value={value}
+        options={(field as SelectField).options}
+        onChange={(selectedValue) => handleChange(selectedValue)}
+      />
     );
   }
 

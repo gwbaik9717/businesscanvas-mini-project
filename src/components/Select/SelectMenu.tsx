@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelectContext } from "./Select";
 import styled from "styled-components";
-import { color } from "../../styles/theme/theme";
+import { color, radius } from "../../styles/theme/theme";
 
 interface SelectMenuProps {
   children?: React.ReactNode;
@@ -47,7 +47,7 @@ const StyledMenu = styled.ul`
   position: absolute;
   padding: 4px;
   list-style: none;
-  border-radius: 4px;
+  border-radius: ${radius.borderRadiusMd};
   background-color: ${color.bgContainer};
   z-index: 999;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

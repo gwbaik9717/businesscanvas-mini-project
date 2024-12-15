@@ -8,6 +8,7 @@ export const icon = "var(--business-color-icon)";
 export const placeholder = "var(--business-color-placeholder)";
 
 export const error = "var(--business-color-error)";
+export const bgActive = "var(--business-color-primary-bg-active)";
 
 // Secondary Colors
 export const border = "var(--business-color-border)";
