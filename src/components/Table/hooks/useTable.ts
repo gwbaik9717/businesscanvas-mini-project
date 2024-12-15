@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { UniqueRecord } from "../../../types/Record";
 
 export interface TableColumn<T extends UniqueRecord> {
+  id: string;
   label: string | null;
   accessor: keyof T;
   render?: (value: T[keyof T] | undefined, row: T) => React.ReactNode;
@@ -16,23 +17,22 @@ export function useTable<T extends UniqueRecord>({
   data,
   columns,
 }: UseTableProps<T>) {
-  const [filters, setFilters] = useState<Partial<Record<keyof T, string>>>({});
+  const [filters, setFilters] = useState<Partial<Record<keyof T, any[]>>>({});
 
   const filteredData = useMemo(() => {
     return data.filter((row) =>
-      Object.entries(filters).every(([key, value]) => {
-        if (!value) return true;
+      Object.entries(filters).every(([key, values]) => {
+        if (!values || values.length === 0) return true;
         const cellValue = row[key as keyof T];
-
-        return cellValue === value;
+        return values.includes(cellValue);
       })
     );
   }, [data, filters]);
 
-  const setFilter = (column: keyof T, value: string) => {
+  const setFilter = (column: keyof T, values: any[]) => {
     setFilters((prev) => ({
       ...prev,
-      [column]: value,
+      [column]: values.length > 0 ? values : undefined,
     }));
   };
 

@@ -10,23 +10,23 @@ import {
 } from "../../styles/theme/theme";
 
 interface SelectMenuItemProps {
-  value: React.Key;
+  value: any;
   children?: React.ReactNode;
   style?: React.CSSProperties;
 }
 
 export const SelectMenuItem: React.FC<SelectMenuItemProps> = ({
-  value: key,
+  value,
   children,
 }) => {
   const { selectMenuItem, registerOption } = useSelectContext();
 
   useEffect(() => {
-    registerOption({ key, label: String(children) });
-  }, [key, children, registerOption]);
+    registerOption({ value, label: String(children) });
+  }, [value, children, registerOption]);
 
   const handleClick = () => {
-    selectMenuItem(key);
+    selectMenuItem(value);
   };
 
   return (

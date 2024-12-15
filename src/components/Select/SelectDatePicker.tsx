@@ -4,7 +4,7 @@ import { useCalendar, CalendarViewType } from "@h6s/calendar";
 import styled from "styled-components";
 
 export const SelectDatePicker: React.FC = () => {
-  const { selectMenuItem, selectedKeys, close, isOpen } = useSelectContext();
+  const { selectMenuItem, selectedValues, close, isOpen } = useSelectContext();
   const { headers, body, navigation, cursorDate } = useCalendar({
     defaultViewType: CalendarViewType.Month,
   });
@@ -19,11 +19,11 @@ export const SelectDatePicker: React.FC = () => {
   };
 
   useEffect(() => {
-    if (selectedKeys && typeof selectedKeys === "string") {
-      const selectedDate = new Date(selectedKeys);
+    if (selectedValues && typeof selectedValues === "string") {
+      const selectedDate = new Date(selectedValues);
       navigation.setDate(selectedDate);
     }
-  }, [selectedKeys]);
+  }, [selectedValues]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {

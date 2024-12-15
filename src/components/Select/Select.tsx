@@ -8,16 +8,16 @@ import React, {
 } from "react";
 
 export interface RegisterOptionType {
-  key: React.Key;
+  value: any;
   label: string;
 }
 
 export interface SelectContextType<T extends SelectionModeType> {
   isOpen: boolean;
-  selectedKeys?: SelectedKeysType<T>;
+  selectedValues?: SelectedValuesType<T>;
   toggle: () => void;
   close: () => void;
-  selectMenuItem: (key: React.Key) => void;
+  selectMenuItem: (value: any) => void;
   options: RegisterOptionType[];
   registerOption: (option: RegisterOptionType) => void;
 }
@@ -35,30 +35,29 @@ export const useSelectContext = () => {
 
 type SelectionModeType = "single" | "multiple";
 
-type SelectedKeysType<T extends SelectionModeType> = T extends "single"
-  ? React.Key
-  : React.Key[];
+type SelectedValuesType<T extends SelectionModeType> = T extends "single"
+  ? any
+  : Array<any>;
 
 interface SelectProps<T extends SelectionModeType> {
   selectionMode: T;
-  selectedKeys?: SelectedKeysType<T>;
-  onSelectionChange?: (keys: SelectedKeysType<T>) => void;
+  onSelectionChange?: (values: SelectedValuesType<T>) => void;
   children: ReactNode;
 }
 
 export const Select = <T extends SelectionModeType = "single">({
   selectionMode,
-  selectedKeys,
   onSelectionChange,
   children,
 }: SelectProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
   const [options, setOptions] = useState<RegisterOptionType[]>([]);
   const selectRef = useRef<HTMLDivElement>(null);
+  const [selectedValues, setSelectedValues] = useState<SelectedValuesType<T>>();
 
   const registerOption = useCallback((option: RegisterOptionType) => {
     setOptions((prev) => {
-      if (prev.find((o) => o.key === option.key)) return prev;
+      if (prev.find((o) => o.value === option.value)) return prev;
       return [...prev, option];
     });
   }, []);
@@ -72,32 +71,36 @@ export const Select = <T extends SelectionModeType = "single">({
   }, []);
 
   const selectMenuItem = useCallback(
-    (key: React.Key) => {
-      if (selectionMode === "single") {
-        if (onSelectionChange) {
-          onSelectionChange(key as SelectedKeysType<T>);
+    (value: any) => {
+      setSelectedValues((prev) => {
+        const isSingleMode = selectionMode === "single";
+
+        // Handle single selection mode
+        if (isSingleMode) {
+          const newValue = value as SelectedValuesType<T>;
+          onSelectionChange?.(newValue);
+          close();
+          return newValue;
         }
-        close();
 
-        return;
-      }
+        // Handle multi-selection mode
+        const prevValues = (prev ?? []) as any[];
+        const isAlreadySelected = prevValues.includes(value);
 
-      if (selectedKeys && Array.isArray(selectedKeys)) {
-        const newSelectedKeys = selectedKeys.includes(key)
-          ? selectedKeys.filter((k) => k !== key)
-          : [...selectedKeys, key];
+        const newValues = isAlreadySelected
+          ? prevValues.filter((selectedValue) => selectedValue !== value)
+          : [...prevValues, value];
 
-        if (onSelectionChange) {
-          onSelectionChange(newSelectedKeys as SelectedKeysType<T>);
-        }
-      }
+        onSelectionChange?.(newValues);
+        return newValues as SelectedValuesType<T>;
+      });
     },
-    [selectionMode, selectedKeys, onSelectionChange, close]
+    [selectionMode, onSelectionChange, close]
   );
 
   const contextValue: SelectContextType<T> = {
     isOpen,
-    selectedKeys,
+    selectedValues,
     toggle,
     close,
     selectMenuItem,

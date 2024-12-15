@@ -6,7 +6,7 @@ import { UniqueRecord } from "../../types/Record";
 interface TableHeaderProps<T extends UniqueRecord> {
   render?: (props: {
     column: { label: string | null; accessor: keyof T };
-    setFilter: (accessor: keyof T, value: string) => void;
+    setFilter: (accessor: keyof T, values: any[]) => void;
   }) => React.ReactNode;
 }
 
@@ -38,4 +38,6 @@ const StyledTh = styled.th`
   text-align: left;
   padding: 8px;
   border-bottom: 1px solid #ccc;
+  min-width: 48px;
+  max-width: 200px;
 `;

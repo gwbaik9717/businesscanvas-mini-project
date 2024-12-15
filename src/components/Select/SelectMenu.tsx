@@ -9,6 +9,7 @@ interface SelectMenuProps {
   variant?: "left" | "right";
 }
 
+// TODO: Detect if the menu is overflowing the viewport and adjust the position
 export const SelectMenu: React.FC<SelectMenuProps> = ({
   children,
   variant = "left",

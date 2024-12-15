@@ -17,10 +17,11 @@ import { TableBody } from "../../components/Table/TableBody";
 import { Checkbox } from "../../components/Checkbox/Checkbox";
 import { ButtonIconOnly } from "../../components/Button/ButtonIconOnly";
 import { KebabIcon } from "../../components/Icons/KebabIcon";
-import { Select } from "../../components/Select/Select";
+import { RegisterOptionType, Select } from "../../components/Select/Select";
 import { SelectMenu } from "../../components/Select/SelectMenu";
 import { SelectMenuItem } from "../../components/Select/SelectMenuItem";
 import { SelectTrigger } from "../../components/Select/SelectTrigger";
+import { Filter } from "../../components/Filter/Filter";
 
 export const MemberList: React.FC = () => {
   const [records, setRecords] = useState<UniqueRecord[]>(initialMembers);
@@ -32,12 +33,14 @@ export const MemberList: React.FC = () => {
   };
 
   const fieldColumns: TableColumn<UniqueRecord>[] = fields.map((field) => ({
+    id: field.id,
     label: field.label,
-    accessor: field.key,
+    accessor: field.id,
   }));
 
   const columns: TableColumn<UniqueRecord>[] = [
     {
+      id: "id_1",
       label: null,
       accessor: "id",
       render: (_value, row) => (
@@ -57,17 +60,18 @@ export const MemberList: React.FC = () => {
     },
     ...fieldColumns,
     {
+      id: "id_2",
       label: null,
       accessor: "id",
       render: (_value, row) => (
         <Select
           selectionMode="single"
-          onSelectionChange={(key) => {
-            if (key === "1") {
+          onSelectionChange={(value) => {
+            if (value === "1") {
               console.log("수정");
             }
 
-            if (key === "2") {
+            if (value === "2") {
               deleteRecord(row.id);
             }
           }}
@@ -88,6 +92,25 @@ export const MemberList: React.FC = () => {
       ),
     },
   ];
+
+  const getOptionsByAccessor = (
+    accessor: keyof UniqueRecord
+  ): RegisterOptionType[] => {
+    const uniqueOptions = records.reduce((acc, record) => {
+      const value = record[accessor];
+      if (value !== undefined && value !== null) {
+        const valueString =
+          typeof value === "string" ? value : value.toString();
+        acc.set(valueString, value);
+      }
+      return acc;
+    }, new Map<string, unknown>());
+
+    return Array.from(uniqueOptions.entries()).map(([key, value]) => ({
+      label: key,
+      value: value,
+    }));
+  };
 
   return (
     <PageLayout>
@@ -116,13 +139,21 @@ export const MemberList: React.FC = () => {
             }
 
             return (
-              <input
-                type="text"
-                placeholder={`Filter ${column.label}`}
-                onChange={(e) => {
-                  setFilter(column.accessor, e.target.value);
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
                 }}
-              />
+              >
+                <Text>{column.label}</Text>
+                <Filter
+                  options={getOptionsByAccessor(column.accessor)}
+                  onSelectionChange={(values) => {
+                    setFilter(column.accessor, values);
+                  }}
+                />
+              </div>
             );
           }}
         />

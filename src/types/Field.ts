@@ -4,13 +4,13 @@ export type FieldType = "text" | "textarea" | "date" | "select" | "checkbox";
  * BaseField: 모든 필드가 공통으로 갖는 속성
  */
 export class BaseField {
-  public key: string;
+  public id: string;
   public type: FieldType;
   public label: string;
   public required: boolean;
 
-  constructor(key: string, type: FieldType, label: string, required: boolean) {
-    this.key = key;
+  constructor(id: string, type: FieldType, label: string, required: boolean) {
+    this.id = id;
     this.type = type;
     this.label = label;
     this.required = required;
@@ -24,13 +24,8 @@ export class BaseField {
 export class SelectField extends BaseField {
   public options: string[];
 
-  constructor(
-    key: string,
-    label: string,
-    options: string[],
-    required: boolean
-  ) {
-    super(key, "select", label, required);
+  constructor(id: string, label: string, options: string[], required: boolean) {
+    super(id, "select", label, required);
     this.options = options;
   }
 }

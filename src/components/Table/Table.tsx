@@ -5,8 +5,8 @@ import { UniqueRecord } from "../../types/Record";
 export interface TableContextType<T extends UniqueRecord> {
   columns: UseTableProps<T>["columns"];
   data: T[];
-  filters: Partial<Record<keyof T, string>>;
-  setFilter: (column: keyof T, value: string) => void;
+  filters: Partial<Record<keyof T, any[]>>;
+  setFilter: (column: keyof T, values: any[]) => void;
 }
 
 const TableContext = createContext<TableContextType<any> | null>(null);

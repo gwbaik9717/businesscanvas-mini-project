@@ -1,35 +1,29 @@
 import React from "react";
 import { RegisterOptionType, Select } from "../Select/Select";
 import { SelectTrigger } from "../Select/SelectTrigger";
-import { SelectMenuItem } from "../Select/SelectMenuItem";
-import { Checkbox } from "../Checkbox/Checkbox";
 import { SelectMenu } from "../Select/SelectMenu";
+import { FilterOption } from "./FilterOption";
+import { ButtonIconOnly } from "../Button/ButtonIconOnly";
+import { FilterIcon } from "../Icons/FilterIcon";
+import { color } from "../../styles/theme/theme";
 
 interface FilterProps {
   options: RegisterOptionType[];
-  selectedKeys: React.Key[];
-  onSelectionChange: (keys: React.Key[]) => void;
+  onSelectionChange?: (values: any[]) => void;
 }
 
 export const Filter: React.FC<FilterProps> = ({
   options,
-  selectedKeys,
   onSelectionChange,
 }) => {
   return (
-    <Select
-      selectionMode="multiple"
-      selectedKeys={selectedKeys}
-      onSelectionChange={onSelectionChange}
-    >
-      <SelectTrigger placeholder="Filter options" />
-
+    <Select selectionMode="multiple" onSelectionChange={onSelectionChange}>
+      <SelectTrigger as={ButtonIconOnly}>
+        <FilterIcon width={10} height={10} color={color.primaryHover} />
+      </SelectTrigger>
       <SelectMenu>
         {options.map((option) => (
-          <SelectMenuItem key={option.key} value={option.key}>
-            <Checkbox checked={selectedKeys.includes(option.key)} />
-            {option.label}
-          </SelectMenuItem>
+          <FilterOption key={option.value} option={option} />
         ))}
       </SelectMenu>
     </Select>
