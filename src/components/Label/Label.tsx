@@ -2,6 +2,7 @@ import React from "react";
 
 interface LabelProps extends React.HTMLAttributes<HTMLSpanElement> {
   required?: boolean;
+  style?: React.CSSProperties;
 }
 
 export const Label: React.FC<LabelProps> = ({

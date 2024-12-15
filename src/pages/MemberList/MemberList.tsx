@@ -22,14 +22,47 @@ import { SelectMenu } from "../../components/Select/SelectMenu";
 import { SelectMenuItem } from "../../components/Select/SelectMenuItem";
 import { SelectTrigger } from "../../components/Select/SelectTrigger";
 import { Filter } from "../../components/Filter/Filter";
+import { MemberModal } from "./components/MemberModal";
 
 export const MemberList: React.FC = () => {
   const [records, setRecords] = useState<UniqueRecord[]>(initialMembers);
   const [checkedRows, setCheckedRows] = useState<string[]>([]);
+  const [editingRecord, setEditingRecord] = useState<UniqueRecord | null>(null);
+
   const { current: fields } = useRef<Field[]>(memberFields);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+
+    if (editingRecord) {
+      setEditingRecord(null);
+    }
+  };
 
   const deleteRecord = (id: string) => {
     setRecords((prev) => prev.filter((record) => record.id !== id));
+  };
+
+  const saveRecord = (record: UniqueRecord) => {
+    setRecords((prev) => {
+      const existingIndex = prev.findIndex((r) => r.id === record.id);
+
+      // Update existing record
+      if (existingIndex > -1) {
+        const updatedRecords = [...prev];
+        updatedRecords[existingIndex] = record;
+        return updatedRecords;
+      }
+
+      // Add new record
+      return [...prev, record];
+    });
   };
 
   const fieldColumns: TableColumn<UniqueRecord>[] = fields.map((field) => ({
@@ -68,7 +101,8 @@ export const MemberList: React.FC = () => {
           selectionMode="single"
           onSelectionChange={(value) => {
             if (value === "1") {
-              console.log("수정");
+              setEditingRecord(row);
+              openModal();
             }
 
             if (value === "2") {
@@ -126,6 +160,7 @@ export const MemberList: React.FC = () => {
           startContent={
             <PlusIcon width={10} height={10} color={color.bgContainer} />
           }
+          onClick={openModal}
         >
           <Text fontSize="fontSizeLg">추가</Text>
         </ButtonWithIcons>
@@ -161,6 +196,13 @@ export const MemberList: React.FC = () => {
           render={({ row }) => <TableRow key={row.id} row={row} />}
         />
       </Table>
+      <MemberModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onSave={saveRecord}
+        fields={fields}
+        record={editingRecord}
+      />
     </PageLayout>
   );
 };
