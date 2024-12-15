@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "./Button";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import {
   color,
   fontSize,
@@ -14,6 +14,7 @@ interface ButtonWithIconsProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   startContent?: React.ReactNode;
   endContent?: React.ReactNode;
+  variant?: "primary" | "secondary";
   onClick?: () => void;
 }
 
@@ -27,7 +28,36 @@ export const ButtonWithIcons: React.FC<ButtonWithIconsProps> = (props) => {
   );
 };
 
-const StyledButton = styled(Button)`
+const variantStyles = {
+  primary: css`
+    background-color: ${color.primary};
+    color: ${color.bgContainer};
+    border: none;
+
+    &:hover {
+      background-color: ${color.primaryHover};
+    }
+
+    &:active {
+      background-color: ${color.primaryActive};
+    }
+  `,
+  secondary: css`
+    background-color: ${color.bgContainer};
+    color: ${color.text};
+    border: 1px solid ${color.border};
+
+    &:hover {
+      background-color: ${color.bgContainerHover};
+    }
+
+    &:active {
+      background-color: ${color.bgContainerDisabled};
+    }
+  `,
+};
+
+const StyledButton = styled(Button)<ButtonWithIconsProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,16 +73,11 @@ const StyledButton = styled(Button)`
   transition: background-color 0.3s ease;
   height: ${height.heightSm};
 
-  &:hover {
-    background-color: ${color.primaryHover};
-  }
-
-  &:active {
-    background-color: ${color.primaryActive};
-  }
+  ${({ variant = "primary" }) => variantStyles[variant]}
 
   &:disabled {
     background-color: ${color.bgContainerDisabled};
+    border: 1px solid ${color.border};
     color: ${color.border};
     cursor: not-allowed;
   }

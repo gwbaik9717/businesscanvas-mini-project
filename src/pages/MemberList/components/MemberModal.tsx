@@ -5,11 +5,11 @@ import styled from "styled-components";
 import { color, padding } from "../../../styles/theme/theme";
 import { Text } from "../../../components/Typography/Text";
 import { RecordEntity, UniqueRecord } from "../../../types/Record";
-import { ButtonIconOnly } from "../../../components/Button/ButtonIconOnly";
 import { CloseIcon } from "../../../components/Icons/CloseIcon";
 import { Label } from "../../../components/Label/Label";
 import { FieldRenderer } from "./FieldRenderer";
 import { IconWrapper } from "../../../components/Icons/IconWrapper";
+import { ButtonWithIcons } from "../../../components/Button/ButtonWithIcons";
 
 interface MemberModalProps {
   isOpen: boolean;
@@ -138,10 +138,16 @@ export const MemberModal: React.FC<MemberModalProps> = ({
       </StyledModalBody>
 
       <StyledModalFooter>
-        <button onClick={handleClose} style={{ marginRight: "10px" }}>
-          취소
-        </button>
-        <button onClick={handleSave}>저장</button>
+        <ButtonWithIcons
+          onClick={handleClose}
+          variant="secondary"
+          style={{ marginRight: "10px" }}
+        >
+          <Text fontSize="fontSizeLg">취소</Text>
+        </ButtonWithIcons>
+        <ButtonWithIcons disabled={isSaveDisabled} onClick={handleSave}>
+          <Text fontSize="fontSizeLg">저장</Text>
+        </ButtonWithIcons>
       </StyledModalFooter>
     </Modal>
   );
