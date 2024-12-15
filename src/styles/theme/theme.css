@@ -9,13 +9,15 @@
   --business-color-bg-container: #ffffff;
   --business-color-bg-container-hover: #0000000f;
   --business-color-bg-container-disabled: #0000000a;
+  --business-color-transparent: transparent;
 
   /* Radius */
   --business-border-radius-sm: 8px;
   --business-border-radius-md: 10px;
 
   /* Padding */
-  --business-padding-sm: 12px;
+  --business-padding-sm: 8px;
+  --business-padding-md: 12px;
 
   /* Font Sizes */
   --business-font-size-sm: 10px;
@@ -32,4 +34,8 @@
   --business-font-weight-regular: 400;
   --business-font-weight-medium: 500;
   --business-font-weight-bold: 600;
+
+  /* Height */
+  --business-height-sm: 32px;
+  --business-height-md: 40px;
 }

@@ -5,3 +5,4 @@ export * as theme from "./theme";
 export * as color from "./color";
 export * as lineHeight from "./lineHeight";
 export * as fontWeight from "./fontWeight";
+export * as height from "./height";
