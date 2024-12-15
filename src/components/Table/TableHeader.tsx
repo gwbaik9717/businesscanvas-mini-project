@@ -5,7 +5,7 @@ import { UniqueRecord } from "../../types/Record";
 
 interface TableHeaderProps<T extends UniqueRecord> {
   render?: (props: {
-    column: { label: string; accessor: keyof T; filterable?: boolean };
+    column: { label: string | null; accessor: keyof T };
     setFilter: (accessor: keyof T, value: string) => void;
   }) => React.ReactNode;
 }
@@ -20,14 +20,12 @@ export const TableHeader = <T extends UniqueRecord>({
       <tr>
         {columns.map((column) => (
           <StyledTh key={column.label}>
-            {render ? (
-              render({
-                column,
-                setFilter,
-              })
-            ) : (
-              <Text>{column.label}</Text>
-            )}
+            {render
+              ? render({
+                  column,
+                  setFilter,
+                })
+              : column.label && <Text>{column.label}</Text>}
           </StyledTh>
         ))}
       </tr>

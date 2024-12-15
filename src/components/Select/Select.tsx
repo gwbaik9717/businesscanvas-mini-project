@@ -1,4 +1,11 @@
-import React, { createContext, useState, ReactNode, useCallback } from "react";
+import React, {
+  createContext,
+  useState,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 
 export interface RegisterOptionType {
   key: React.Key;
@@ -9,7 +16,6 @@ export interface SelectContextType<T extends SelectionModeType> {
   isOpen: boolean;
   selectedKeys?: SelectedKeysType<T>;
   toggle: () => void;
-  open: () => void;
   close: () => void;
   selectMenuItem: (key: React.Key) => void;
   options: RegisterOptionType[];
@@ -48,6 +54,7 @@ export const Select = <T extends SelectionModeType = "single">({
 }: SelectProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
   const [options, setOptions] = useState<RegisterOptionType[]>([]);
+  const selectRef = useRef<HTMLDivElement>(null);
 
   const registerOption = useCallback((option: RegisterOptionType) => {
     setOptions((prev) => {
@@ -56,13 +63,13 @@ export const Select = <T extends SelectionModeType = "single">({
     });
   }, []);
 
-  const open = useCallback(() => setIsOpen(true), []);
-
   const close = useCallback(() => {
     setIsOpen(false);
   }, []);
 
-  const toggle = useCallback(() => setIsOpen((prev) => !prev), []);
+  const toggle = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
 
   const selectMenuItem = useCallback(
     (key: React.Key) => {
@@ -92,16 +99,40 @@ export const Select = <T extends SelectionModeType = "single">({
     isOpen,
     selectedKeys,
     toggle,
-    open,
     close,
     selectMenuItem,
     options,
     registerOption,
   };
 
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        selectRef.current &&
+        !selectRef.current.contains(event.target as Node)
+      ) {
+        close();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isOpen, close]);
+
   return (
     <SelectContext.Provider value={contextValue}>
-      <div style={{ display: "inline-block", position: "relative" }}>
+      <div
+        ref={selectRef}
+        style={{
+          position: "relative",
+          display: "inline-block",
+        }}
+      >
         {children}
       </div>
     </SelectContext.Provider>

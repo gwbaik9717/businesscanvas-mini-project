@@ -1,9 +1,18 @@
 import React, { useEffect } from "react";
 import { useSelectContext } from "./Select";
+import styled from "styled-components";
+import {
+  color,
+  padding,
+  transition,
+  height,
+  radius,
+} from "../../styles/theme/theme";
 
 interface SelectMenuItemProps {
   value: React.Key;
   children?: React.ReactNode;
+  style?: React.CSSProperties;
 }
 
 export const SelectMenuItem: React.FC<SelectMenuItemProps> = ({
@@ -21,8 +30,23 @@ export const SelectMenuItem: React.FC<SelectMenuItemProps> = ({
   };
 
   return (
-    <li role="option" onClick={handleClick}>
+    <StyledMenuItem role="option" onClick={handleClick}>
       {children}
-    </li>
+    </StyledMenuItem>
   );
 };
+
+const StyledMenuItem = styled.li`
+  display: flex;
+  align-items: center;
+  padding: 5px ${padding.paddingMd};
+  cursor: pointer;
+  transition: ${transition.transition};
+  width: 190px;
+  height: ${height.heightMd};
+  border-radius: ${radius.borderRadiusSm};
+
+  &:hover {
+    background-color: ${color.bgContainerHover};
+  }
+`;

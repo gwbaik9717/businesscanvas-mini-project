@@ -2,9 +2,9 @@ import { useState, useMemo } from "react";
 import { UniqueRecord } from "../../../types/Record";
 
 export interface TableColumn<T extends UniqueRecord> {
-  label: string;
+  label: string | null;
   accessor: keyof T;
-  filterable?: boolean;
+  render?: (value: T[keyof T] | undefined, row: T) => React.ReactNode;
 }
 
 export interface UseTableProps<T extends UniqueRecord> {

@@ -1,50 +1,53 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { useSelectContext } from "./Select";
+import styled from "styled-components";
+import { color } from "../../styles/theme/theme";
 
 interface SelectMenuProps {
   children?: React.ReactNode;
+  style?: React.CSSProperties;
+  variant?: "left" | "right";
 }
 
-export const SelectMenu: React.FC<SelectMenuProps> = ({ children }) => {
-  const { isOpen, close } = useSelectContext();
-  const menuRef = useRef<HTMLUListElement>(null);
-
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        close();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleOutsideClick);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [isOpen, close]);
+export const SelectMenu: React.FC<SelectMenuProps> = ({
+  children,
+  variant = "left",
+  style,
+}) => {
+  const { isOpen } = useSelectContext();
 
   if (!isOpen) return null;
 
+  const getVariantStyle = () => {
+    switch (variant) {
+      case "left":
+        return { left: 0, top: "100%", marginTop: 4 };
+      case "right":
+        return { right: 0, top: "100%", marginTop: 4 };
+      default:
+        return {};
+    }
+  };
+
   return (
-    <ul
-      ref={menuRef}
+    <StyledMenu
       role="listbox"
       style={{
-        position: "absolute",
-        top: "100%",
-        left: 0,
-        marginTop: 4,
-        padding: 0,
-        listStyle: "none",
-        border: "1px solid #ccc",
-        borderRadius: 4,
-        backgroundColor: "#fff",
-        zIndex: 999,
+        ...getVariantStyle(),
+        ...style,
       }}
     >
       {children}
-    </ul>
+    </StyledMenu>
   );
 };
+
+const StyledMenu = styled.ul`
+  position: absolute;
+  padding: 4px;
+  list-style: none;
+  border-radius: 4px;
+  background-color: ${color.bgContainer};
+  z-index: 999;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;

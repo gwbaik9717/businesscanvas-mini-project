@@ -15,7 +15,9 @@ export const TableRow = <T extends UniqueRecord>({ row }: TableRowProps<T>) => {
           key={column.accessor as string}
           style={{ padding: "8px", borderBottom: "1px solid #eee" }}
         >
-          {column.accessor && row[column.accessor] !== undefined
+          {column.render
+            ? column.render(row[column.accessor], row)
+            : row[column.accessor] !== undefined
             ? String(row[column.accessor])
             : null}
         </td>
