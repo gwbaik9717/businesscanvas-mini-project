@@ -23,9 +23,11 @@ import { SelectMenuItem } from "../../components/Select/SelectMenuItem";
 import { SelectTrigger } from "../../components/Select/SelectTrigger";
 import { Filter } from "../../components/Filter/Filter";
 import { MemberModal } from "./components/MemberModal";
+import { useStorage } from "../../hooks/useStorage";
 
 export const MemberList: React.FC = () => {
-  const [records, setRecords] = useState<UniqueRecord[]>(initialMembers);
+  // const [records, setRecords] = useState<UniqueRecord[]>(initialMembers);
+  const [records, setRecords] = useStorage("member-records", initialMembers);
   const [checkedRows, setCheckedRows] = useState<string[]>([]);
   const [editingRecord, setEditingRecord] = useState<UniqueRecord | null>(null);
 

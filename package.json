@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:inmemory": "vite --mode inmemory",
+    "dev:localstorage": "vite --mode localstorage",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
