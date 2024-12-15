@@ -10,8 +10,10 @@
   --business-color-bg-container-hover: #0000000f;
   --business-color-bg-container-disabled: #0000000a;
   --business-color-transparent: transparent;
+  --business-color-text: #000000a6;
 
   /* Radius */
+  --business-border-radius-xs: 6px;
   --business-border-radius-sm: 8px;
   --business-border-radius-md: 10px;
 
@@ -38,4 +40,7 @@
   /* Height */
   --business-height-sm: 32px;
   --business-height-md: 40px;
+
+  /* Transition */
+  --business-transition: all 0.2s ease-in-out;
 }

@@ -2,8 +2,8 @@
 export const primary = "var(--business-color-primary)";
 export const primaryHover = "var(--business-color-primary-hover)";
 export const primaryActive = "var(--business-color-primary-active)";
-
 export const transparent = "var(--business-color-transparent)";
+export const text = "var(--business-color-text)";
 
 // Secondary Colors
 export const border = "var(--business-color-border)";

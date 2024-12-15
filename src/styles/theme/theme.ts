@@ -6,3 +6,4 @@ export * as color from "./color";
 export * as lineHeight from "./lineHeight";
 export * as fontWeight from "./fontWeight";
 export * as height from "./height";
+export * as transition from "./transition";
