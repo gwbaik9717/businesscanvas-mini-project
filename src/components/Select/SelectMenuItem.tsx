@@ -53,7 +53,7 @@ const StyledMenuItem = styled.li<{
   padding: 5px ${padding.paddingLg};
   cursor: pointer;
   transition: ${transition.transition};
-  width: 190px;
+  width: 100%;
   height: ${height.heightSm};
   border-radius: ${radius.borderRadiusSm};
   background-color: ${(props) =>

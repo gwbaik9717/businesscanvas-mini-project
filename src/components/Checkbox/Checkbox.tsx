@@ -26,10 +26,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   };
 
   return (
-    <StyledCheckboxContainer
-      width={width || style?.width}
-      height={height || style?.height}
-    >
+    <StyledCheckboxContainer width={width} height={height} style={style}>
       <StyledHiddenCheckbox
         checked={checked}
         onChange={handleChange}
@@ -39,7 +36,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         <CheckIcon
           width={12}
           height={12}
-          color="white"
+          color={color.bgContainer}
           visibility={checked ? "visible" : "hidden"}
         />
       </StyledCheckbox>

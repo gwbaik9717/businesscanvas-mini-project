@@ -13,7 +13,6 @@ interface DefaultSelectProps {
   value?: string;
   options: string[];
   placeholder?: string;
-  width?: string | number;
   onChange: (selectedValue: string) => void;
 }
 
@@ -21,16 +20,19 @@ export const DefaultSelect: React.FC<DefaultSelectProps> = ({
   value,
   options,
   placeholder = "Select an option",
-  width,
   onChange,
 }) => {
   return (
     <Select selectionMode="single" onSelectionChange={onChange}>
-      <SelectTrigger as={StyledTrigger} width={width}>
+      <SelectTrigger as={StyledTrigger}>
         <Text fontSize="fontSizeLg">{value || placeholder}</Text>
       </SelectTrigger>
 
-      <SelectMenu>
+      <SelectMenu
+        style={{
+          width: "198px",
+        }}
+      >
         {options.map((option) => (
           <SelectMenuItem
             key={option}

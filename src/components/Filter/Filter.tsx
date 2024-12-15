@@ -2,10 +2,10 @@ import React from "react";
 import { RegisterOptionType, Select } from "../Select/Select";
 import { SelectTrigger } from "../Select/SelectTrigger";
 import { SelectMenu } from "../Select/SelectMenu";
-import { FilterOption } from "./FilterOption";
 import { ButtonIconOnly } from "../Button/ButtonIconOnly";
 import { FilterIcon } from "../Icons/FilterIcon";
-import { color } from "../../styles/theme/theme";
+import { color, padding } from "../../styles/theme/theme";
+import { FilterMenuItem } from "./FilterMenuItem";
 
 interface FilterProps {
   options: RegisterOptionType[];
@@ -21,9 +21,18 @@ export const Filter: React.FC<FilterProps> = ({
       <SelectTrigger as={ButtonIconOnly}>
         <FilterIcon width={10} height={10} color={color.primaryHover} />
       </SelectTrigger>
-      <SelectMenu>
+      <SelectMenu
+        style={{
+          padding: padding.paddingSm,
+          width: "150px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
+        }}
+        variant="right"
+      >
         {options.map((option) => (
-          <FilterOption key={option.value} option={option} />
+          <FilterMenuItem key={option.value} option={option} />
         ))}
       </SelectMenu>
     </Select>
