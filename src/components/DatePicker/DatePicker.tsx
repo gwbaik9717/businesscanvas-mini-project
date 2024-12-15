@@ -28,7 +28,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   return (
     <Select selectionMode="single" onSelectionChange={handleDateChange}>
       <SelectTrigger as={StyledTrigger}>
-        <Text>{value || placeholder}</Text>
+        <Text fontSize="fontSizeLg">{value || placeholder}</Text>
       </SelectTrigger>
 
       <SelectDatePicker value={value} />

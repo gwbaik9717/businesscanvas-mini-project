@@ -56,6 +56,8 @@ export const FieldRenderer: React.FC<FieldRendererProps> = ({
       <Checkbox
         checked={!!value}
         onValueChange={(checked) => handleChange(checked)}
+        width={16}
+        height={16}
       />
     );
   }

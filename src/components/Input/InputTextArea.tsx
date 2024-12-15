@@ -11,7 +11,7 @@ interface InputTextAreaProps
 }
 
 export const InputTextArea: React.FC<InputTextAreaProps> = (props) => {
-  return <Input as={StyledInputTextArea} {...props} />;
+  return <Input as={StyledInputTextArea} placeholder="Textarea" {...props} />;
 };
 
 const StyledInputTextArea = styled.textarea`
@@ -27,6 +27,7 @@ const StyledInputTextArea = styled.textarea`
   /* Placeholder Text */
   &::placeholder {
     color: ${color.placeholder};
+    font-family: "Open Sans", sans-serif;
   }
 
   /* Hover State */

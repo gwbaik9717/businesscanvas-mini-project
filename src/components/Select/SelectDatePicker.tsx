@@ -126,7 +126,7 @@ export const SelectDatePicker: React.FC<SelectDatePickerProps> = ({
                     key={day.key}
                     isCurrentMonth={day.isCurrentMonth}
                     isCurrentDate={day.isCurrentDate}
-                    isSelected={isSelected} // Pass the isSelected prop
+                    isSelected={isSelected}
                     onClick={() => handleDateClick(day.value)}
                   >
                     <div className="wrapper">{day.date}</div>
@@ -206,9 +206,12 @@ const StyledDay = styled.div<{
   padding: 3px 5px;
   text-align: center;
   cursor: pointer;
-
-  color: ${(props) => (props.isCurrentMonth ? color.text : color.placeholder)};
-  color: ${(props) => (props.isSelected ? "#fff" : "inherit")};
+  color: ${(props) =>
+    props.isSelected
+      ? color.bgContainer
+      : props.isCurrentMonth
+      ? color.text
+      : color.placeholder};
 
   .wrapper {
     width: 24px;
