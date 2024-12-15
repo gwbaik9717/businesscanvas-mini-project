@@ -2,8 +2,27 @@ import React, { useEffect, useRef } from "react";
 import { useSelectContext } from "./Select";
 import { useCalendar, CalendarViewType } from "@h6s/calendar";
 import styled from "styled-components";
+import {
+  color,
+  fontSize,
+  padding,
+  radius,
+  transition,
+} from "../../styles/theme/theme";
+import { IconWrapper } from "../Icons/IconWrapper";
+import { DoubleLeftOutlinedIcon } from "../Icons/DoubleLeftOutlinedIcon";
+import { DoubleRightOutlinedIcon } from "../Icons/DoubleRightOutlinedIcon";
+import { LeftOutlinedIcon } from "../Icons/LeftOutlinedIcon";
+import { RightOutlinedIcon } from "../Icons/RightOutlinedIcon";
+import { Text } from "../Typography/Text";
 
-export const SelectDatePicker: React.FC = () => {
+interface SelectDatePickerProps {
+  value?: string;
+}
+
+export const SelectDatePicker: React.FC<SelectDatePickerProps> = ({
+  value,
+}) => {
   const { selectMenuItem, selectedValues, close, isOpen } = useSelectContext();
   const { headers, body, navigation, cursorDate } = useCalendar({
     defaultViewType: CalendarViewType.Month,
@@ -19,151 +38,195 @@ export const SelectDatePicker: React.FC = () => {
   };
 
   useEffect(() => {
-    if (selectedValues && typeof selectedValues === "string") {
-      const selectedDate = new Date(selectedValues);
-      navigation.setDate(selectedDate);
-    }
-  }, [selectedValues]);
-
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        close();
+    const targetDate = value || selectedValues;
+    if (targetDate && typeof targetDate === "string") {
+      const selectedDate = new Date(targetDate);
+      if (!isNaN(selectedDate.getTime())) {
+        navigation.setDate(selectedDate);
       }
-    };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleOutsideClick);
-    } else {
-      document.removeEventListener("mousedown", handleOutsideClick);
     }
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [isOpen]);
+  }, [value, selectedValues]);
 
   if (!isOpen) return null;
 
   return (
-    <StyleDatePicker ref={dropdownRef}>
-      <StyleHeader>
-        <button
-          onClick={() =>
-            navigation.setDate(
-              new Date(cursorDate.setFullYear(cursorDate.getFullYear() - 1))
-            )
-          }
-        >
-          {`<<`}
-        </button>
-        <button onClick={navigation.toPrev}>{`<`}</button>
-        <span>{`${cursorDate.toLocaleString("default", {
-          month: "long",
-        })} ${cursorDate.getFullYear()}`}</span>
-        <button onClick={navigation.toNext}>{`>`}</button>
-        <button
-          onClick={() =>
-            navigation.setDate(
-              new Date(cursorDate.setFullYear(cursorDate.getFullYear() + 1))
-            )
-          }
-        >
-          {`>>`}
-        </button>
-      </StyleHeader>
-      <StyleWeekDays>
-        {headers.weekDays.map((day) => (
-          <div key={day.key}>
-            {day.value.toLocaleDateString("en-US", { weekday: "short" })}
-          </div>
-        ))}
-      </StyleWeekDays>
-      <StyleDays>
-        {body.value.map((week) => (
-          <StyleWeek key={week.key}>
-            {week.value.map((day) => (
-              <StyleDay
-                key={day.key}
-                isCurrentMonth={day.isCurrentMonth}
-                isCurrentDate={day.isCurrentDate}
-                onClick={() => handleDateClick(day.value)}
-              >
-                {day.date}
-              </StyleDay>
-            ))}
-          </StyleWeek>
-        ))}
-      </StyleDays>
-    </StyleDatePicker>
+    <StyledDatePicker ref={dropdownRef}>
+      <StyledHeader>
+        <div className="navigation-group">
+          <IconWrapper
+            className="navigation"
+            size={16}
+            padding={2}
+            onClick={() =>
+              navigation.setDate(
+                new Date(cursorDate.setFullYear(cursorDate.getFullYear() - 1))
+              )
+            }
+          >
+            <DoubleLeftOutlinedIcon width="100%" height="100%" />
+          </IconWrapper>
+
+          <IconWrapper
+            className="navigation"
+            size={16}
+            padding={2}
+            onClick={navigation.toPrev}
+          >
+            <LeftOutlinedIcon width="100%" height="100%" />
+          </IconWrapper>
+        </div>
+
+        <Text fontWeight="fontWeightBold" fontSize="fontSizeLg">
+          {`${cursorDate.toLocaleString("default", {
+            month: "short",
+          })} ${cursorDate.getFullYear()}`}
+        </Text>
+
+        <div className="navigation-group">
+          <IconWrapper
+            className="navigation"
+            size={16}
+            padding={2}
+            onClick={navigation.toNext}
+          >
+            <RightOutlinedIcon width="100%" height="100%" />
+          </IconWrapper>
+
+          <IconWrapper
+            className="navigation"
+            size={16}
+            padding={2}
+            onClick={() =>
+              navigation.setDate(
+                new Date(cursorDate.setFullYear(cursorDate.getFullYear() + 1))
+              )
+            }
+          >
+            <DoubleRightOutlinedIcon width="100%" height="100%" />
+          </IconWrapper>
+        </div>
+      </StyledHeader>
+      <StyledBody>
+        <StyledWeekDays>
+          {headers.weekDays.map((day) => (
+            <StyledWeekDay key={day.key}>
+              {day.value.toLocaleDateString("en-US", { weekday: "short" })}
+            </StyledWeekDay>
+          ))}
+        </StyledWeekDays>
+        <StyledDays>
+          {body.value.map((week) => (
+            <StyledWeek key={week.key}>
+              {week.value.map((day) => {
+                const formattedDay = day.value.toLocaleDateString("en-CA");
+                const isSelected = formattedDay === value;
+
+                return (
+                  <StyledDay
+                    key={day.key}
+                    isCurrentMonth={day.isCurrentMonth}
+                    isCurrentDate={day.isCurrentDate}
+                    isSelected={isSelected} // Pass the isSelected prop
+                    onClick={() => handleDateClick(day.value)}
+                  >
+                    <div className="wrapper">{day.date}</div>
+                  </StyledDay>
+                );
+              })}
+            </StyledWeek>
+          ))}
+        </StyledDays>
+      </StyledBody>
+    </StyledDatePicker>
   );
 };
 
-const StyleDatePicker = styled.div`
-  padding: 12px;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+const StyledDatePicker = styled.div`
+  background-color: ${color.bgContainer};
+  border-radius: ${radius.borderRadiusSm};
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-  width: 280px;
-  z-index: 10;
+  z-index: 1000;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
 `;
 
-const StyleHeader = styled.div`
+const StyledHeader = styled.div`
+  padding: 9px ${padding.paddingSm};
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
-  font-weight: bold;
+  border-bottom: 1px solid ${color.border};
 
-  button {
-    border: none;
-    background: none;
+  .navigation-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .navigation {
     cursor: pointer;
-    padding: 4px;
-    font-size: 16px;
   }
 `;
 
-const StyleWeekDays = styled.div`
+const StyledBody = styled.div`
+  padding: ${padding.paddingSm} 18px;
+  color: ${color.text};
+  font-size: ${fontSize.fontSizeLg};
+`;
+
+const StyledWeekDays = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
-  font-size: 12px;
-  color: gray;
-  margin-bottom: 8px;
 `;
 
-const StyleDays = styled.div`
+const StyledDays = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
 `;
 
-const StyleWeek = styled.div`
+const StyledWeek = styled.div`
   display: contents;
 `;
 
-const StyleDay = styled.div<{
+const StyledWeekDay = styled.div`
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledDay = styled.div<{
   isCurrentMonth: boolean;
   isCurrentDate: boolean;
+  isSelected: boolean;
 }>`
+  height: 30px;
+  padding: 3px 5px;
   text-align: center;
-  padding: 8px;
   cursor: pointer;
-  border-radius: 50%;
-  background-color: ${(props) =>
-    props.isCurrentDate
-      ? "#e6f7ff"
-      : props.isCurrentMonth
-      ? "transparent"
-      : "#f0f0f0"};
-  color: ${(props) => (props.isCurrentMonth ? "#000" : "#ccc")};
-  &:hover {
+
+  color: ${(props) => (props.isCurrentMonth ? color.text : color.placeholder)};
+  color: ${(props) => (props.isSelected ? "#fff" : "inherit")};
+
+  .wrapper {
+    width: 24px;
+    height: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: ${(props) =>
-      props.isCurrentDate ? "#0056b3" : "#f0f0f0"};
+      props.isSelected ? color.primary : "transparent"};
+    border-radius: ${radius.borderRadiusSm};
+    transition: ${transition.transition};
+  }
+
+  &:hover .wrapper {
+    background-color: ${(props) => (props.isSelected ? "#0056b3" : "#f0f0f0")};
+  }
+
+  &:focus .wrapper {
+    border: 1px solid ${color.primary};
   }
 `;

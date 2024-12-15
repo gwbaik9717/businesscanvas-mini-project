@@ -11,6 +11,9 @@ import { Checkbox } from "../../../components/Checkbox/Checkbox";
 import { ButtonWithIcons } from "../../../components/Button/ButtonWithIcons";
 import { ChevronDownIcon } from "../../../components/Icons/ChevronDownIcon";
 import { CalendarOutlinedIcon } from "../../../components/Icons/CalendarOutlinedIcon";
+import { color } from "../../../styles/theme/theme";
+import { Text } from "../../../components/Typography/Text";
+import { DatePicker } from "../../../components/DatePicker/DatePicker";
 
 interface FieldRendererProps {
   field: Field;
@@ -81,19 +84,10 @@ export const FieldRenderer: React.FC<FieldRendererProps> = ({
 
   if (field.type === "date") {
     return (
-      <Select
-        selectionMode="single"
-        onSelectionChange={(selectedValue) => handleChange(selectedValue)}
-      >
-        <SelectTrigger
-          as={ButtonWithIcons}
-          endContent={<CalendarOutlinedIcon width={10} height={10} />}
-        >
-          {value || "Select date"}
-        </SelectTrigger>
-
-        <SelectDatePicker />
-      </Select>
+      <DatePicker
+        value={value}
+        onChange={(selectedDate) => handleChange(selectedDate)}
+      />
     );
   }
 

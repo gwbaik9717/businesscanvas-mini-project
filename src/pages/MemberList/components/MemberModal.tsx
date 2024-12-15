@@ -77,7 +77,7 @@ export const MemberModal: React.FC<MemberModalProps> = ({
           {record ? "회원 수정" : "회원 추가"}
         </Text>
         <IconWrapper
-          size={16}
+          size={22}
           padding={3}
           style={{
             cursor: "pointer",
