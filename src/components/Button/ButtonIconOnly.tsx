@@ -27,7 +27,7 @@ const StyledButton = styled(Button)`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: ${padding.paddingMd};
+  padding: ${padding.paddingLg};
   font-weight: ${fontWeight.fontWeightBold};
   font-size: ${fontSize.fontSizeSm};
   border-radius: ${radius.borderRadiusSm};

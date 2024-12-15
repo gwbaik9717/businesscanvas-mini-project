@@ -39,7 +39,7 @@ export const SelectMenuItem: React.FC<SelectMenuItemProps> = ({
 const StyledMenuItem = styled.li`
   display: flex;
   align-items: center;
-  padding: 5px ${padding.paddingMd};
+  padding: 5px ${padding.paddingLg};
   cursor: pointer;
   transition: ${transition.transition};
   width: 190px;

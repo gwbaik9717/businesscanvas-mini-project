@@ -11,6 +11,9 @@
   --business-color-bg-container-disabled: #0000000a;
   --business-color-transparent: transparent;
   --business-color-text: #000000a6;
+  --business-color-icon: #00000073;
+  --business-color-placeholder: #00000040;
+  --business-color-error: #ff4d4f;
 
   /* Radius */
   --business-border-radius-xs: 6px;
@@ -19,7 +22,10 @@
 
   /* Padding */
   --business-padding-sm: 8px;
-  --business-padding-md: 12px;
+  --business-padding-md: 10px;
+  --business-padding-lg: 12px;
+  --business-padding-xl: 14px;
+  --business-padding-2xl: 24px;
 
   /* Font Sizes */
   --business-font-size-sm: 10px;

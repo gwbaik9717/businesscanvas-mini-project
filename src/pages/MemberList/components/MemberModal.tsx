@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { Modal } from "../../../components/Modal/Modal";
 import { Field } from "../../../types/Field";
 import styled from "styled-components";
-import { color } from "../../../styles/theme/theme";
+import { color, padding } from "../../../styles/theme/theme";
 import { Text } from "../../../components/Typography/Text";
 import { RecordEntity, UniqueRecord } from "../../../types/Record";
 import { ButtonIconOnly } from "../../../components/Button/ButtonIconOnly";
 import { CloseIcon } from "../../../components/Icons/CloseIcon";
 import { Label } from "../../../components/Label/Label";
 import { FieldRenderer } from "./FieldRenderer";
+import { IconWrapper } from "../../../components/Icons/IconWrapper";
 
 interface MemberModalProps {
   isOpen: boolean;
@@ -72,23 +73,25 @@ export const MemberModal: React.FC<MemberModalProps> = ({
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
       <StyledModalHeader>
-        <Text>{record ? "회원 수정" : "회원 추가"}</Text>
-        <ButtonIconOnly onClick={handleClose}>
-          <CloseIcon width={16} height={16} color={color.border} />
-        </ButtonIconOnly>
+        <Text fontWeight="fontWeightBold" fontSize="fontSizeLg">
+          {record ? "회원 수정" : "회원 추가"}
+        </Text>
+        <IconWrapper
+          size={16}
+          padding={3}
+          style={{
+            cursor: "pointer",
+          }}
+          onClick={handleClose}
+        >
+          <CloseIcon width={12} height={12} color={color.icon} />
+        </IconWrapper>
       </StyledModalHeader>
 
       <StyledModalBody>
         {fields.map((field) => (
           <StyledField key={field.id}>
-            <Label
-              style={{
-                display: "block",
-              }}
-              required={field.required}
-            >
-              {field.label}
-            </Label>
+            <Label required={field.required}>{field.label}</Label>
             <FieldRenderer
               field={field}
               value={currentRecord ? currentRecord[field.id] : ""}
@@ -112,18 +115,18 @@ const StyledModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: ${padding.paddingMd};
   border-bottom: 1px solid ${color.border};
 `;
 
 const StyledModalBody = styled.div`
-  padding: 20px;
+  padding: ${padding.paddingMd} ${padding.padding2Xl};
 `;
 
 const StyledModalFooter = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding: 20px;
+  padding: ${padding.paddingMd} 16px;
   border-top: 1px solid ${color.border};
 `;
 
