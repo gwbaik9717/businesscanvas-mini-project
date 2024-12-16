@@ -2,6 +2,8 @@ import { useTableContext } from "./Table";
 import styled from "styled-components";
 import { Text } from "../Typography/Text";
 import { UniqueRecord } from "../../types/Record";
+import { color, padding } from "../../styles/theme/theme";
+import { Divider } from "../Divider/Divider";
 
 interface TableHeaderProps<T extends UniqueRecord> {
   render?: (props: {
@@ -18,14 +20,24 @@ export const TableHeader = <T extends UniqueRecord>({
   return (
     <thead>
       <tr>
-        {columns.map((column) => (
+        {columns.map((column, index) => (
           <StyledTh key={column.label}>
-            {render
-              ? render({
-                  column,
-                  setFilter,
-                })
-              : column.label && <Text>{column.label}</Text>}
+            <div
+              style={{
+                borderRight:
+                  index === columns.length - 1
+                    ? "none"
+                    : `1px solid ${color.border}`,
+                padding: `0 ${padding.paddingMd}`,
+              }}
+            >
+              {render
+                ? render({
+                    column,
+                    setFilter,
+                  })
+                : column.label && <Text>{column.label}</Text>}
+            </div>
           </StyledTh>
         ))}
       </tr>
@@ -36,8 +48,9 @@ export const TableHeader = <T extends UniqueRecord>({
 const StyledTh = styled.th`
   position: relative;
   text-align: left;
-  padding: 8px;
-  border-bottom: 1px solid #ccc;
+  padding: ${padding.paddingSm} 0;
   min-width: 48px;
   max-width: 200px;
+  background-color: ${color.fillAfter};
+  border-bottom: 1px solid ${color.border};
 `;

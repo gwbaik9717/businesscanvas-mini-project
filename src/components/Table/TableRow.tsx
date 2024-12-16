@@ -1,6 +1,9 @@
+import styled from "styled-components";
 import { UniqueRecord } from "../../types/Record";
 import { Checkbox } from "../Checkbox/Checkbox";
 import { useTableContext } from "./Table";
+import { color, padding } from "../../styles/theme/theme";
+import { Text } from "../Typography/Text";
 
 interface TableRowProps<T extends UniqueRecord> {
   row: T;
@@ -12,10 +15,7 @@ export const TableRow = <T extends UniqueRecord>({ row }: TableRowProps<T>) => {
   return (
     <tr>
       {columns.map((column) => (
-        <td
-          key={column.id}
-          style={{ padding: "8px", borderBottom: "1px solid #eee" }}
-        >
+        <StyledTd key={column.id}>
           {column.render ? (
             column.render(row[column.accessor as keyof T], row)
           ) : row[column.accessor as keyof T] !== undefined ? (
@@ -26,11 +26,19 @@ export const TableRow = <T extends UniqueRecord>({ row }: TableRowProps<T>) => {
                 checked={row[column.accessor as keyof T] as boolean}
               />
             ) : (
-              row[column.accessor as keyof T]?.toString()
+              <Text fontSize="fontSizeLg">
+                {row[column.accessor as keyof T]?.toString()}
+              </Text>
             )
           ) : null}
-        </td>
+        </StyledTd>
       ))}
     </tr>
   );
 };
+
+const StyledTd = styled.td`
+  padding: 13px ${padding.paddingSm};
+  border-bottom: 1px solid ${color.bgContainerHover};
+  vertical-align: middle;
+`;

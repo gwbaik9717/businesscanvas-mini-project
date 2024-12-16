@@ -6,6 +6,7 @@ export const transparent = "var(--business-color-transparent)";
 export const text = "var(--business-color-text)";
 export const icon = "var(--business-color-icon)";
 export const placeholder = "var(--business-color-placeholder)";
+export const fillAfter = "var(--business-color-fill-after)";
 
 export const error = "var(--business-color-error)";
 export const bgActive = "var(--business-color-primary-bg-active)";
