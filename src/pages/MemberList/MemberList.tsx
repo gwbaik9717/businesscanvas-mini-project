@@ -20,10 +20,13 @@ import { Filter } from "../../components/Filter/Filter";
 import { MemberModal } from "./components/MemberModal";
 import { useStorage } from "../../hooks/useStorage";
 import { RecordEdit } from "../../components/RecordEdit/RecordEdit";
+import { STORAGE_KEY_MEMBER_RECORDS } from "../../constants/storage";
 
 export const MemberList: React.FC = () => {
-  // const [records, setRecords] = useState<UniqueRecord[]>(initialMembers);
-  const [records, setRecords] = useStorage("member-records", initialMembers);
+  const [records, setRecords] = useStorage(
+    STORAGE_KEY_MEMBER_RECORDS,
+    initialMembers
+  );
   const [checkedRows, setCheckedRows] = useState<string[]>([]);
   const [editingRecord, setEditingRecord] = useState<UniqueRecord | null>(null);
 
