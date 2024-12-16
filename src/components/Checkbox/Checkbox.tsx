@@ -7,6 +7,7 @@ interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "checked"> {
   checked?: boolean;
   onValueChange?: (value: boolean) => void;
+  readonly?: boolean;
 }
 
 export const Checkbox: React.FC<CheckboxProps> = ({
@@ -15,6 +16,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   width = 20,
   height = 20,
   style,
+  readonly = false,
   ...props
 }) => {
   const handleChange = (
@@ -26,7 +28,12 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   };
 
   return (
-    <StyledCheckboxContainer width={width} height={height} style={style}>
+    <StyledCheckboxContainer
+      width={width}
+      height={height}
+      style={style}
+      readonly={readonly}
+    >
       <StyledHiddenCheckbox
         checked={checked}
         onChange={handleChange}
@@ -47,10 +54,11 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 const StyledCheckboxContainer = styled.label<{
   width?: number | string;
   height?: number | string;
+  readonly?: boolean;
 }>`
   display: inline-flex;
   align-items: center;
-  cursor: pointer;
+  cursor: ${({ readonly }) => (readonly ? "auto" : "pointer")};
   width: ${({ width }) => (typeof width === "number" ? `${width}px` : width)};
   height: ${({ height }) =>
     typeof height === "number" ? `${height}px` : height};

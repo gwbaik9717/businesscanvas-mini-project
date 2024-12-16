@@ -21,6 +21,7 @@ export const TableRow = <T extends UniqueRecord>({ row }: TableRowProps<T>) => {
           ) : row[column.accessor as keyof T] !== undefined ? (
             typeof row[column.accessor as keyof T] === "boolean" ? (
               <Checkbox
+                readonly
                 width={16}
                 height={16}
                 checked={row[column.accessor as keyof T] as boolean}
