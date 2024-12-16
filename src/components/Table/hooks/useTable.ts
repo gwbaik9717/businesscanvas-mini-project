@@ -1,10 +1,12 @@
 import { useState, useMemo } from "react";
 import { UniqueRecord } from "../../../types/Record";
+import { FieldType } from "../../../types/Field";
 
 export interface TableColumn<T extends UniqueRecord> {
   id: string;
   label: string | null;
   accessor: keyof T;
+  type?: FieldType;
   render?: (value: T[keyof T] | undefined, row: T) => React.ReactNode;
 }
 

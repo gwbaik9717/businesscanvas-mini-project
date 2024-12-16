@@ -35,6 +35,7 @@ export const MemberTable: React.FC<MemberTableProps> = ({
     id: field.id,
     label: field.label,
     accessor: field.id,
+    type: field.type,
   }));
 
   const columns: TableColumn<UniqueRecord>[] = [

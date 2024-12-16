@@ -18,8 +18,8 @@ export const TableRow = <T extends UniqueRecord>({ row }: TableRowProps<T>) => {
         <StyledTd key={column.id}>
           {column.render ? (
             column.render(row[column.accessor as keyof T], row)
-          ) : row[column.accessor as keyof T] !== undefined ? (
-            typeof row[column.accessor as keyof T] === "boolean" ? (
+          ) : column.type ? (
+            column.type === "checkbox" ? (
               <Checkbox
                 readonly
                 width={16}
