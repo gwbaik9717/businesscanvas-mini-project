@@ -1,152 +1,32 @@
-import React, { useRef, useState } from "react";
-import { Table } from "../../components/Table/Table";
-import { TableHeader } from "../../components/Table/TableHeader";
-import { TableRow } from "../../components/Table/TableRow";
-import { TableColumn } from "../../components/Table/hooks/useTable";
-import { ButtonWithIcons } from "../../components/Button/ButtonWithIcons";
-import { PlusIcon } from "../../components/Icons/PlusIcon";
-import styled from "styled-components";
+import React, { useState } from "react";
 import { PageLayout } from "../../layouts/PageLayout";
 import { Heading } from "../../components/Typography/Heading";
-import { Text } from "../../components/Typography/Text";
-import { color, padding } from "../../styles/theme/theme";
-import { UniqueRecord } from "../../types/Record";
-import { initialMembers, memberFields } from "../../constants/member";
-import { Field } from "../../types/Field";
-import { TableBody } from "../../components/Table/TableBody";
-import { Checkbox } from "../../components/Checkbox/Checkbox";
-import { RegisterOptionType } from "../../components/Select/Select";
-import { Filter } from "../../components/Filter/Filter";
+import { ButtonWithIcons } from "../../components/Button/ButtonWithIcons";
+import { PlusIcon } from "../../components/Icons/PlusIcon";
 import { MemberModal } from "./components/MemberModal";
-import { useStorage } from "../../hooks/useStorage";
-import { RecordEdit } from "../../components/RecordEdit/RecordEdit";
-import { STORAGE_KEY_MEMBER_RECORDS } from "../../constants/storage";
+import { MemberTable } from "./components/MemberTable";
+import { initialMembers, memberFields } from "../../constants/member";
+import { color, padding } from "../../styles/theme/theme";
+import { useMemberRecords } from "./hooks/useMemberRecords";
+import { UniqueRecord } from "../../types/Record";
+import styled from "styled-components";
+import { useModal } from "../../components/Modal/hooks/useModal";
+import { Text } from "../../components/Typography/Text";
 
 export const MemberList: React.FC = () => {
-  const [records, setRecords] = useStorage(
-    STORAGE_KEY_MEMBER_RECORDS,
-    initialMembers
-  );
-  const [checkedRows, setCheckedRows] = useState<string[]>([]);
+  const { records, saveRecord, deleteRecord } =
+    useMemberRecords(initialMembers);
+  const { isOpen: isModalOpen, openModal, closeModal } = useModal();
   const [editingRecord, setEditingRecord] = useState<UniqueRecord | null>(null);
 
-  const { current: fields } = useRef<Field[]>(memberFields);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
+  const handleModalClose = () => {
+    closeModal();
+    setEditingRecord(null);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-
-    if (editingRecord) {
-      setEditingRecord(null);
-    }
-  };
-
-  const deleteRecord = (id: string) => {
-    setRecords((prev) => prev.filter((record) => record.id !== id));
-  };
-
-  const saveRecord = (record: UniqueRecord) => {
-    setRecords((prev) => {
-      const existingIndex = prev.findIndex((r) => r.id === record.id);
-
-      // Update existing record
-      if (existingIndex > -1) {
-        const updatedRecords = [...prev];
-        updatedRecords[existingIndex] = record;
-        return updatedRecords;
-      }
-
-      // Add new record
-      return [...prev, record];
-    });
-  };
-
-  const fieldColumns: TableColumn<UniqueRecord>[] = fields.map((field) => ({
-    id: field.id,
-    label: field.label,
-    accessor: field.id,
-  }));
-
-  const columns: TableColumn<UniqueRecord>[] = [
-    {
-      id: "id_1",
-      label: null,
-      accessor: "id",
-      render: (_value, row) => (
-        <Checkbox
-          width={16}
-          height={16}
-          checked={checkedRows.includes(row.id)}
-          onValueChange={(value) => {
-            if (value) {
-              setCheckedRows((prev) => [...prev, row.id]);
-            } else {
-              setCheckedRows((prev) => prev.filter((id) => id !== row.id));
-            }
-          }}
-        />
-      ),
-    },
-    ...fieldColumns,
-    {
-      id: "id_2",
-      label: null,
-      accessor: "id",
-      render: (_value, row) => (
-        <RecordEdit
-          options={[
-            { label: "수정", value: "수정" },
-            {
-              label: (
-                <Text
-                  fontSize="fontSizeLg"
-                  style={{
-                    color: color.error,
-                  }}
-                >
-                  삭제
-                </Text>
-              ),
-              value: "삭제",
-            },
-          ]}
-          onSelectionChange={(selectedValue) => {
-            if (selectedValue === "수정") {
-              setEditingRecord(row);
-              openModal();
-            }
-
-            if (selectedValue === "삭제") {
-              deleteRecord(row.id);
-            }
-          }}
-        />
-      ),
-    },
-  ];
-
-  const getOptionsByAccessor = (
-    accessor: keyof UniqueRecord
-  ): RegisterOptionType[] => {
-    const uniqueOptions = records.reduce((acc, record) => {
-      const value = record[accessor];
-      if (value !== undefined && value !== null) {
-        const valueString =
-          typeof value === "string" ? value : value.toString();
-        acc.set(valueString, value);
-      }
-      return acc;
-    }, new Map<string, unknown>());
-
-    return Array.from(uniqueOptions.entries()).map(([key, value]) => ({
-      label: key,
-      value: value,
-    }));
+  const handleRecordEdit = (record: UniqueRecord) => {
+    setEditingRecord(record);
+    openModal();
   };
 
   return (
@@ -169,43 +49,18 @@ export const MemberList: React.FC = () => {
         </ButtonWithIcons>
       </StyledPageHeader>
 
-      <Table<UniqueRecord> data={records} columns={columns}>
-        <TableHeader
-          render={({ column, setFilter }) => {
-            if (column.label === null) {
-              return null;
-            }
+      <MemberTable
+        records={records}
+        fields={memberFields}
+        onRecordEdit={handleRecordEdit}
+        onRecordDelete={deleteRecord}
+      />
 
-            return (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Text fontSize="fontSizeLg" fontWeight="fontWeightBold">
-                  {column.label}
-                </Text>
-                <Filter
-                  options={getOptionsByAccessor(column.accessor)}
-                  onSelectionChange={(values) => {
-                    setFilter(column.accessor, values);
-                  }}
-                />
-              </div>
-            );
-          }}
-        />
-        <TableBody<UniqueRecord>
-          render={({ row }) => <TableRow key={row.id} row={row} />}
-        />
-      </Table>
       <MemberModal
         isOpen={isModalOpen}
-        onClose={closeModal}
+        onClose={handleModalClose}
         onSave={saveRecord}
-        fields={fields}
+        fields={memberFields}
         record={editingRecord}
       />
     </PageLayout>
