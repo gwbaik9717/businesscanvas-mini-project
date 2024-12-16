@@ -15,15 +15,11 @@ import { initialMembers, memberFields } from "../../constants/member";
 import { Field } from "../../types/Field";
 import { TableBody } from "../../components/Table/TableBody";
 import { Checkbox } from "../../components/Checkbox/Checkbox";
-import { ButtonIconOnly } from "../../components/Button/ButtonIconOnly";
-import { KebabIcon } from "../../components/Icons/KebabIcon";
-import { RegisterOptionType, Select } from "../../components/Select/Select";
-import { SelectMenu } from "../../components/Select/SelectMenu";
-import { SelectMenuItem } from "../../components/Select/SelectMenuItem";
-import { SelectTrigger } from "../../components/Select/SelectTrigger";
+import { RegisterOptionType } from "../../components/Select/Select";
 import { Filter } from "../../components/Filter/Filter";
 import { MemberModal } from "./components/MemberModal";
 import { useStorage } from "../../hooks/useStorage";
+import { RecordEdit } from "../../components/RecordEdit/RecordEdit";
 
 export const MemberList: React.FC = () => {
   // const [records, setRecords] = useState<UniqueRecord[]>(initialMembers);
@@ -99,32 +95,34 @@ export const MemberList: React.FC = () => {
       label: null,
       accessor: "id",
       render: (_value, row) => (
-        <Select
-          selectionMode="single"
-          onSelectionChange={(value) => {
-            if (value === "1") {
+        <RecordEdit
+          options={[
+            { label: "수정", value: "수정" },
+            {
+              label: (
+                <Text
+                  fontSize="fontSizeLg"
+                  style={{
+                    color: color.error,
+                  }}
+                >
+                  삭제
+                </Text>
+              ),
+              value: "삭제",
+            },
+          ]}
+          onSelectionChange={(selectedValue) => {
+            if (selectedValue === "수정") {
               setEditingRecord(row);
               openModal();
             }
 
-            if (value === "2") {
+            if (selectedValue === "삭제") {
               deleteRecord(row.id);
             }
           }}
-        >
-          <SelectTrigger as={ButtonIconOnly}>
-            <KebabIcon width={10} height={10} color={color.text} />
-          </SelectTrigger>
-
-          <SelectMenu variant="right">
-            <SelectMenuItem key="1" value="1">
-              <Text fontSize="fontSizeLg">수정</Text>
-            </SelectMenuItem>
-            <SelectMenuItem key="2" value="2">
-              <Text fontSize="fontSizeLg">삭제</Text>
-            </SelectMenuItem>
-          </SelectMenu>
-        </Select>
+        />
       ),
     },
   ];

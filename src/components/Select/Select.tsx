@@ -9,7 +9,7 @@ import React, {
 
 export interface RegisterOptionType {
   value: any;
-  label: string;
+  label: string | ReactNode;
 }
 
 export interface SelectContextType<T extends SelectionModeType> {
