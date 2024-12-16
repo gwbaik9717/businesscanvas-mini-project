@@ -9,7 +9,7 @@ import styled from "styled-components";
 import { PageLayout } from "../../layouts/PageLayout";
 import { Heading } from "../../components/Typography/Heading";
 import { Text } from "../../components/Typography/Text";
-import { color } from "../../styles/theme/theme";
+import { color, padding } from "../../styles/theme/theme";
 import { UniqueRecord } from "../../types/Record";
 import { initialMembers, memberFields } from "../../constants/member";
 import { Field } from "../../types/Field";
@@ -157,7 +157,7 @@ export const MemberList: React.FC = () => {
           lineHeight="lineHeightRelaxed"
           fontWeight="fontWeightBold"
         >
-          멤버 목록
+          회원 목록
         </Heading>
         <ButtonWithIcons
           startContent={
@@ -184,7 +184,9 @@ export const MemberList: React.FC = () => {
                   alignItems: "center",
                 }}
               >
-                <Text>{column.label}</Text>
+                <Text fontSize="fontSizeLg" fontWeight="fontWeightBold">
+                  {column.label}
+                </Text>
                 <Filter
                   options={getOptionsByAccessor(column.accessor)}
                   onSelectionChange={(values) => {
@@ -214,5 +216,6 @@ const StyledPageHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  padding: ${padding.paddingSm} ${padding.paddingXl};
+  border-bottom: 1px solid ${color.border};
 `;
