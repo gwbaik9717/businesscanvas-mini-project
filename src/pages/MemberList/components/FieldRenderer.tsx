@@ -1,20 +1,9 @@
 import React from "react";
 import { Field, SelectField } from "../../../types/Field";
-import { InputText } from "../../../components/Input/InputText";
-import { Select } from "../../../components/Select/Select";
-import { SelectDatePicker } from "../../../components/Select/SelectDatePicker";
-import { SelectTrigger } from "../../../components/Select/SelectTrigger";
-import { SelectMenu } from "../../../components/Select/SelectMenu";
-import { SelectMenuItem } from "../../../components/Select/SelectMenuItem";
-import { InputTextArea } from "../../../components/Input/InputTextArea";
+import { InputText, InputTextArea } from "../../../components/Input";
 import { Checkbox } from "../../../components/Checkbox/Checkbox";
-import { ButtonWithIcons } from "../../../components/Button/ButtonWithIcons";
-import { ChevronDownIcon } from "../../../components/Icons/ChevronDownIcon";
-import { CalendarOutlinedIcon } from "../../../components/Icons/CalendarOutlinedIcon";
-import { color } from "../../../styles/theme/theme";
-import { Text } from "../../../components/Typography/Text";
 import { DatePicker } from "../../../components/DatePicker/DatePicker";
-import { DefaultSelect } from "../../../components/Select/DefaultSelect";
+import { DefaultSelect } from "../../../components/DefaultSelect/DefaultSelect";
 
 interface FieldRendererProps {
   field: Field;

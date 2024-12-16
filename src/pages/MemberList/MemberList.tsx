@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { PageLayout } from "../../layouts/PageLayout";
-import { Heading } from "../../components/Typography/Heading";
-import { ButtonWithIcons } from "../../components/Button/ButtonWithIcons";
-import { PlusIcon } from "../../components/Icons/PlusIcon";
+import { Heading } from "../../components/Typography/components/Heading";
+import { ButtonWithIcons } from "../../components/Button/components/ButtonWithIcons";
+import { PlusIcon } from "../../components/Icons/components/PlusIcon";
 import { MemberModal } from "./components/MemberModal";
 import { MemberTable } from "./components/MemberTable";
 import { initialMembers, memberFields } from "../../constants/member";
-import { color, padding } from "../../styles/theme/theme";
+import { color, padding } from "../../styles/theme";
 import { useMemberRecords } from "./hooks/useMemberRecords";
 import { UniqueRecord } from "../../types/Record";
 import styled from "styled-components";
 import { useModal } from "../../components/Modal/hooks/useModal";
-import { Text } from "../../components/Typography/Text";
+import { Text } from "../../components/Typography/components/Text";
 
 export const MemberList: React.FC = () => {
   const { records, saveRecord, deleteRecord } =

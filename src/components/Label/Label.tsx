@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { color, fontSize, fontWeight, padding } from "../../styles/theme/theme";
+import { color, fontSize, fontWeight, padding } from "../../styles/theme";
 
 interface LabelProps extends React.HTMLAttributes<HTMLSpanElement> {
   required?: boolean;

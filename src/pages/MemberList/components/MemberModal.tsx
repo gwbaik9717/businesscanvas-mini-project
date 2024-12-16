@@ -2,14 +2,13 @@ import { useState, useEffect, useMemo } from "react";
 import { Modal } from "../../../components/Modal/Modal";
 import { Field } from "../../../types/Field";
 import styled from "styled-components";
-import { color, padding } from "../../../styles/theme/theme";
-import { Text } from "../../../components/Typography/Text";
+import { color, padding } from "../../../styles/theme";
+import { Text } from "../../../components/Typography/components/Text";
 import { RecordEntity, UniqueRecord } from "../../../types/Record";
-import { CloseIcon } from "../../../components/Icons/CloseIcon";
+import { CloseIcon, IconWrapper } from "../../../components/Icons";
 import { Label } from "../../../components/Label/Label";
 import { FieldRenderer } from "./FieldRenderer";
-import { IconWrapper } from "../../../components/Icons/IconWrapper";
-import { ButtonWithIcons } from "../../../components/Button/ButtonWithIcons";
+import { ButtonWithIcons } from "../../../components/Button/components/ButtonWithIcons";
 
 interface MemberModalProps {
   isOpen: boolean;

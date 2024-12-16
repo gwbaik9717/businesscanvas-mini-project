@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { color } from "../../styles/theme/theme";
+import { color } from "../../styles/theme";
 
 interface DividerProps {
   padding?: string;

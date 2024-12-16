@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { CheckIcon } from "../Icons/CheckIcon";
-import { transition, color, radius } from "../../styles/theme/theme";
+import { CheckIcon } from "../Icons/components/CheckIcon";
+import { transition, color, radius } from "../../styles/theme";
 
 interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "checked"> {

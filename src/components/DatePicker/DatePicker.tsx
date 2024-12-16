@@ -1,11 +1,9 @@
 import React from "react";
-import { Select } from "../Select/Select";
-import { SelectTrigger } from "../Select/SelectTrigger";
-import { SelectDatePicker } from "../Select/SelectDatePicker";
-import { ButtonWithIcons } from "../Button/ButtonWithIcons";
-import { CalendarOutlinedIcon } from "../Icons/CalendarOutlinedIcon";
-import { Text } from "../Typography/Text";
-import { color, transition } from "../../styles/theme/theme";
+import { Select, SelectTrigger, SelectDatePicker } from "../Select";
+import { CalendarOutlinedIcon } from "../Icons";
+import { ButtonWithIcons } from "../Button";
+import { Text } from "../Typography";
+import { color, transition } from "../../styles/theme";
 import styled from "styled-components";
 
 interface DatePickerProps {

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { RegisterOptionType } from "../../../components/Select/Select";
+import { RegisterOptionType } from "../../../components/Select/components/Select";
 import { UniqueRecord } from "../../../types/Record";
 
 export const useFilter = (records: UniqueRecord[]) => {

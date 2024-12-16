@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { Checkbox } from "../../../components/Checkbox/Checkbox";
-import { Filter } from "../../../components/Filter/Filter";
+import { Filter } from "../../../components/Filter/components/Filter";
 import { TableColumn } from "../../../components/Table/hooks/useTable";
-import { Table } from "../../../components/Table/Table";
-import { TableBody } from "../../../components/Table/TableBody";
-import { TableHeader } from "../../../components/Table/TableHeader";
-import { TableRow } from "../../../components/Table/TableRow";
-import { Text } from "../../../components/Typography/Text";
+import { Text } from "../../../components/Typography/components/Text";
 import { Field } from "../../../types/Field";
 import { UniqueRecord } from "../../../types/Record";
 import { RecordEdit } from "../../../components/RecordEdit/RecordEdit";
-import { color } from "../../../styles/theme/theme";
+import { color } from "../../../styles/theme";
 import { useFilter } from "../hooks/useFilter";
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableRow,
+} from "../../../components/Table";
 
 interface MemberTableProps {
   records: UniqueRecord[];

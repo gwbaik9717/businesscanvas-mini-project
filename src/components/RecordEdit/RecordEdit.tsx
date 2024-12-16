@@ -1,14 +1,17 @@
 import React from "react";
-import { RegisterOptionType, Select } from "../Select/Select";
-import { SelectTrigger } from "../Select/SelectTrigger";
-import { SelectMenu } from "../Select/SelectMenu";
-import { SelectMenuItem } from "../Select/SelectMenuItem";
-import { ButtonIconOnly } from "../Button/ButtonIconOnly";
-import { KebabIcon } from "../Icons/KebabIcon";
-import { color, padding, transition } from "../../styles/theme/theme";
+import {
+  Select,
+  SelectTrigger,
+  SelectMenu,
+  SelectMenuItem,
+  RegisterOptionType,
+} from "../Select";
+import { ButtonIconOnly } from "../Button/components/ButtonIconOnly";
+import { KebabIcon } from "../Icons/components/KebabIcon";
+import { color, padding, transition } from "../../styles/theme";
 import styled from "styled-components";
 import { Divider } from "../Divider/Divider";
-import { Text } from "../Typography/Text";
+import { Text } from "../Typography/components/Text";
 
 interface RecordEditProps {
   options: RegisterOptionType[];
