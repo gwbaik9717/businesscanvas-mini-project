@@ -11,7 +11,8 @@ export const GlobalStyles = createGlobalStyle`
         text-decoration: none;
         color: inherit;
     }
-    html, body, #root {
+
+    html, body, #root  {
         height: 100%;
     }
     
@@ -23,29 +24,17 @@ export const GlobalStyles = createGlobalStyle`
     }
     
     body {
-        font-family: 'Noto Sans KR', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
-    
-    #root {
-        display: flex;
+
+    #modal-root {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; 
+        z-index: 1000;
     }
-    
-    h2 {
-        margin: 0;
-        font-size: 16px;
-    }
-    
-    
-    ul {
-        margin: 0;
-        padding: 0 0 0 1.5em;
-    }
-    
-    li {
-        padding: 0;
-    }
-    
-    b { 
-        margin-right: 3px;
-    }
+     
 `;

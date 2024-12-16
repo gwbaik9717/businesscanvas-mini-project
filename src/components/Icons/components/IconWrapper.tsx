@@ -27,5 +27,4 @@ const StyledIconWrapper = styled.div<{ size: number; padding: number }>`
   width: ${({ size }) => `${size}px`};
   height: ${({ size }) => `${size}px`};
   padding: ${({ padding }) => `${padding}px`};
-  box-sizing: border-box;
 `;

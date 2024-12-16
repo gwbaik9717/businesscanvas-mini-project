@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
-
+import { color, radius } from "../../styles/theme";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -35,21 +35,18 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 };
 
 const Backdrop = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  background: ${color.icon};
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  pointer-events: auto;
 `;
 
 const Content = styled.div`
-  background: white;
-  border-radius: 8px;
+  background: ${color.bgContainer};
+  border-radius: ${radius.borderRadiusSm};
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   max-width: 500px;
   width: 90%;

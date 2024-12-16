@@ -11,5 +11,4 @@ export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
 
 const StyledPageLayout = styled.div`
   width: 100%;
-  box-sizing: border-box;
 `;
