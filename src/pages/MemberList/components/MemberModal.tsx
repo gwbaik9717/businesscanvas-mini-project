@@ -1,4 +1,3 @@
-import { useState, useEffect, useMemo } from "react";
 import { Modal } from "../../../components/Modal/Modal";
 import { Field } from "../../../types/Field";
 import styled from "styled-components";
@@ -9,6 +8,8 @@ import { CloseIcon, IconWrapper } from "../../../components/Icons";
 import { Label } from "../../../components/Label/Label";
 import { FieldRenderer } from "./FieldRenderer";
 import { ButtonWithIcons } from "../../../components/Button/components/ButtonWithIcons";
+import { useMemberRecordValidation } from "../hooks/useMemberRecordValidation";
+import { useMemberRecord } from "../hooks/useMemberRcord";
 
 interface MemberModalProps {
   isOpen: boolean;
@@ -25,17 +26,14 @@ export const MemberModal: React.FC<MemberModalProps> = ({
   fields,
   onSave,
 }) => {
-  const [currentRecord, setCurrentRecord] = useState<UniqueRecord | null>(
-    record || null
-  );
+  const { currentRecord, setCurrentRecord } = useMemberRecord({ record });
+  const { hasChanges, hasAllRequiredFields } = useMemberRecordValidation({
+    currentRecord,
+    record,
+    fields,
+  });
 
-  useEffect(() => {
-    if (record) {
-      setCurrentRecord(record);
-    } else {
-      setCurrentRecord(null);
-    }
-  }, [record]);
+  const isSaveDisabled = !hasChanges || !hasAllRequiredFields;
 
   const handleClose = () => {
     if (onClose) {
@@ -68,42 +66,6 @@ export const MemberModal: React.FC<MemberModalProps> = ({
       };
     });
   };
-
-  const hasChanges = useMemo(() => {
-    // 추가 모드
-    if (!record) {
-      if (!currentRecord) {
-        return false;
-      }
-
-      return Object.keys(currentRecord).length > 0;
-    }
-
-    // 수정 모드
-    if (!currentRecord) {
-      return false;
-    }
-
-    for (const key in currentRecord) {
-      if (currentRecord[key] !== record[key]) {
-        return true;
-      }
-    }
-
-    return false;
-  }, [currentRecord, record]);
-
-  const hasAllRequiredFields = useMemo(() => {
-    return fields.every((field) => {
-      if (field.required) {
-        return Boolean(currentRecord && currentRecord[field.id]);
-      }
-
-      return true;
-    });
-  }, [fields, currentRecord]);
-
-  const isSaveDisabled = !hasChanges || !hasAllRequiredFields;
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose}>
